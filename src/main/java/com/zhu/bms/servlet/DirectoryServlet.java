@@ -61,10 +61,6 @@ public class DirectoryServlet extends HttpServlet{
         String pageSize = req.getParameter("pageSize");
         String currentPage = req.getParameter("currentPage");
 
-        System.out.println(keyWords);
-        System.out.println(pageSize);
-        System.out.println(currentPage);
-
         if(!"".equals(keyWords) && keyWords != null){
             queryDirectoryObject.setKeyWords(keyWords);
         }
@@ -90,6 +86,7 @@ public class DirectoryServlet extends HttpServlet{
                 e.printStackTrace();
             }
         }
+
         req.setAttribute("qo",queryDirectoryObject);//参数回显
 
         try {

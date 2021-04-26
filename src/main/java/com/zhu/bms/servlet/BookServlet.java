@@ -31,6 +31,7 @@ public class BookServlet extends HttpServlet {
 
     DirectoryService directoryService = new DirectoryServiceImpl();
     BookService bookService = new BookServiceImpl();
+
     /***
      * 转发
      * @param req
@@ -64,7 +65,7 @@ public class BookServlet extends HttpServlet {
     }
 
     /***
-     * 主页的结构部分
+     * 主页的结构部分显示
      * @param req
      * @param resp
      */
@@ -103,7 +104,7 @@ public class BookServlet extends HttpServlet {
     public void query(HttpServletRequest req, HttpServletResponse resp){
 
         QueryBookObject queryBookObject = new QueryBookObject();
-
+        //查询条件封装
         String pageSize = req.getParameter("pageSize");
         if(pageSize != null && !("".equals(pageSize))){
             queryBookObject.setPageSize(Integer.valueOf(pageSize));
@@ -118,8 +119,9 @@ public class BookServlet extends HttpServlet {
         queryBookObject.setAuthorName(req.getParameter("authorName"));
         queryBookObject.setDirId(req.getParameter("dirId"));
 
-            ResultObject result = bookService.queryByKeyWords(queryBookObject);
-            if(result.getTotalCount() >0 ){
+            ResultObject result = bookService.queryByKeyWords(queryBookObject);  //条件查询
+
+            if(result.getTotalCount() >0 ){//没查询到结果
                 req.setAttribute("result",result);
             }else {
                 try {
@@ -131,13 +133,14 @@ public class BookServlet extends HttpServlet {
                 }
             }
 
+            //部门显示
             List<Directory> directories = directoryService.queryAll();
             req.setAttribute("directories",directories);
 
-            req.setAttribute("qo",queryBookObject);//回显
+            req.setAttribute("qo",queryBookObject);//参数回显
 
             try {
-                req.getRequestDispatcher("/WEB-INF/views/query.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/query.jsp").forward(req,resp);//跳转到主页面
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -152,26 +155,27 @@ public class BookServlet extends HttpServlet {
      * @param resp
      */
     public void saveAndUpdate(HttpServletRequest req, HttpServletResponse resp){
-        String id = req.getParameter("id");
+
+        String id = req.getParameter("id");//获取前端要修改的id，为空就是新增操作。
 
         if(id != null){    //代表修改操作
             Long id1 = Long.valueOf(id);
-            Book bookOne = bookService.queryById(id1);
-            req.setAttribute("bookOne",bookOne);
+            Book bookOne = bookService.queryById(id1);//id查询将要修改的book
+            req.setAttribute("bookOne",bookOne);//前端显示
         }
 
-        List<Directory> directories = directoryService.queryAll();
-        req.setAttribute("directories",directories);
+        List<Directory> directories = directoryService.queryAll();//所有类别查询
+        req.setAttribute("directories",directories);//前端书籍类别显示
 
         try {
-            req.getRequestDispatcher("/WEB-INF/views/input.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/input.jsp").forward(req,resp);//跳转到修改页面
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /***
-     * 修改和新增的实现
+     * 修改和新增的实现(post)
      * @param req
      * @param resp
      */
@@ -185,7 +189,7 @@ public class BookServlet extends HttpServlet {
         String dirId = req.getParameter("dirId");//书的类别的id
 
         Book book = new Book();
-
+        //参数封装到book对象，先经过非空判断。
         if (!"".equals(id) && id != null){
             book.setId(Long.valueOf(id));
         }
@@ -208,15 +212,15 @@ public class BookServlet extends HttpServlet {
             book.setDirectory(directory);
         }
 
-        if (!"".equals(req.getParameter("id")) &&req.getParameter("id") != null){
-            bookService.update(book);
+        //具体操作
+        if (!"".equals(req.getParameter("id")) &&req.getParameter("id") != null){  //判断是否是修改
+            bookService.update(book);//修改
         }else {
-            System.out.println(book);
-            bookService.save(book);
+            bookService.save(book);//新增
         }
 
         try {
-            resp.sendRedirect("book?action=query");
+            resp.sendRedirect("book?action=query");//跳转
         } catch (IOException e) {
             e.printStackTrace();
         }
