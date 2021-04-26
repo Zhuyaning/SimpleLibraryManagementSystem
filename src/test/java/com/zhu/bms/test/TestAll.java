@@ -26,36 +26,4 @@ import java.util.List;
 
 public class TestAll {
 
-    @Test
-    public void BookMapperTest(){
-      BookMapper bookMapper = new BookMapperImpl();
-        QueryBookObject queryBookObject = new QueryBookObject();
-        Integer integer = bookMapper.queryCount(queryBookObject);
-        System.out.println(integer);
-    }
-    
-    @Test
-    public void bookServiceTest(){
-        BookService bookService = new BookServiceImpl();
-        QueryBookObject queryBookObject = new QueryBookObject();
-        queryBookObject.setCurrentPage(3);
-        ResultObject resultObject = bookService.queryByKeyWords(queryBookObject);
-        System.out.println(resultObject);
-    }
-    @Test
-    public void dirMapperTest(){
-        DirectoryMapper directoryMapper = new DirectoryMapperImpl();
-        List<Directory> directories = directoryMapper.queryByKeyWords(new QueryDirectoryObject());
-        System.out.println(directories);
-    }
-
-    @Test
-    public void UserServiceTest(){
-        UserService userService = new UserServiceImpl();
-        User user = new User();
-        user.setUsername("朱亚宁");
-        user.setPassword("123456");
-        String register = userService.register(user);
-        System.out.println(register);
-    }
 }
