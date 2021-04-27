@@ -44,23 +44,20 @@ public class BookServlet extends HttpServlet {
 
         String action = req.getParameter("action");
 
-        if (req.getSession().getAttribute("username") == null){
-            req.getRequestDispatcher("user?action=login").forward(req,resp);
+        if (req.getSession().getAttribute("username") == null) {
+            req.getRequestDispatcher("user?action=login").forward(req, resp);
         }
 
-        if("delete".equals(action)){
-            delete(req,resp);
-        }
-        else if("query".equals(action)){
-            query(req,resp);
-        }
-        else if ("save".equals(action)){
-            saveAndUpdate(req,resp);
-        }
-        else if ("save1".equals(action)){
-            saveAndUpdateImpl(req,resp);
-        }else if ("main".equals(action)){
-            myMain(req,resp);
+        if ("delete".equals(action)) {
+            delete(req, resp);
+        } else if ("query".equals(action)) {
+            query(req, resp);
+        } else if ("save".equals(action)) {
+            saveAndUpdate(req, resp);
+        } else if ("save1".equals(action)) {
+            saveAndUpdateImpl(req, resp);
+        } else if ("main".equals(action)) {
+            myMain(req, resp);
         }
     }
 
@@ -72,8 +69,8 @@ public class BookServlet extends HttpServlet {
     private void myMain(HttpServletRequest req, HttpServletResponse resp) {
         try {
             Object MyUsername = req.getSession().getAttribute("username");
-            req.setAttribute("MyUsername",MyUsername);
-            req.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(req,resp);
+            req.setAttribute("MyUsername", MyUsername);
+            req.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -106,12 +103,12 @@ public class BookServlet extends HttpServlet {
         QueryBookObject queryBookObject = new QueryBookObject();
         //查询条件封装
         String pageSize = req.getParameter("pageSize");
-        if(pageSize != null && !("".equals(pageSize))){
+        if (pageSize != null && !("".equals(pageSize))) {
             queryBookObject.setPageSize(Integer.valueOf(pageSize));
         }
 
         String currentPage = req.getParameter("currentPage");
-        if (currentPage != null && !("".equals(currentPage))){
+        if (currentPage != null && !("".equals(currentPage))) {
             queryBookObject.setCurrentPage(Integer.valueOf(currentPage));
         }
 
@@ -119,33 +116,33 @@ public class BookServlet extends HttpServlet {
         queryBookObject.setAuthorName(req.getParameter("authorName"));
         queryBookObject.setDirId(req.getParameter("dirId"));
 
-            ResultObject result = bookService.queryByKeyWords(queryBookObject);  //条件查询
+        ResultObject result = bookService.queryByKeyWords(queryBookObject);  //条件查询
 
-            if(result.getTotalCount() >0 ){//没查询到结果
-                req.setAttribute("result",result);
-            }else {
-                try {
-                    req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req,resp);
-                } catch (ServletException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            //部门显示
-            List<Directory> directories = directoryService.queryAll();
-            req.setAttribute("directories",directories);
-
-            req.setAttribute("qo",queryBookObject);//参数回显
-
+        if (result.getTotalCount() > 0) {//没查询到结果
+            req.setAttribute("result", result);
+        } else {
             try {
-                req.getRequestDispatcher("/WEB-INF/views/query.jsp").forward(req,resp);//跳转到主页面
+                req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        //部门显示
+        List<Directory> directories = directoryService.queryAll();
+        req.setAttribute("directories", directories);
+
+        req.setAttribute("qo", queryBookObject);//参数回显
+
+        try {
+            req.getRequestDispatcher("/WEB-INF/views/query.jsp").forward(req, resp);//跳转到主页面
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
