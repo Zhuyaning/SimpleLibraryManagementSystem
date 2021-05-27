@@ -3,9 +3,7 @@ package com.zhu.bms.servlet;
 import com.zhu.bms.domain.Directory;
 import com.zhu.bms.queryobject.QueryDirectoryObject;
 import com.zhu.bms.result.ResultObject;
-import com.zhu.bms.service.BookService;
 import com.zhu.bms.service.DirectoryService;
-import com.zhu.bms.service.impl.BookServiceImpl;
 import com.zhu.bms.service.impl.DirectoryServiceImpl;
 
 import javax.servlet.ServletException;
@@ -23,35 +21,30 @@ import java.io.IOException;
  */
 
 @WebServlet("/directory")
-public class DirectoryServlet extends HttpServlet{
+public class DirectoryServlet extends HttpServlet {
 
     //导入两个service
     DirectoryService directoryService = new DirectoryServiceImpl();
-    BookService bookService = new BookServiceImpl();
+//    BookService bookService = new BookServiceImpl();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String action = req.getParameter("action");
 
-        if ("list".equals(action)){
-            list(req,resp);
-        }
-        else if("delete".equals(action)){
-            delete(req,resp);
-        }
-        else if ("save".equals(action)){
-            saveAndUpdate(req,resp);
-        }
-        else if ("save1".equals(action)){
-            saveAndUpdateImpl(req,resp);
+        if ("list".equals(action)) {
+            list(req, resp);
+        } else if ("delete".equals(action)) {
+            delete(req, resp);
+        } else if ("save".equals(action)) {
+            saveAndUpdate(req, resp);
+        } else if ("save1".equals(action)) {
+            saveAndUpdateImpl(req, resp);
         }
     }
 
     /***
      * 查询关键字并显示类别管理主页面
-     * @param req
-     * @param resp
      */
     public void list(HttpServletRequest req, HttpServletResponse resp) {
 
@@ -61,13 +54,13 @@ public class DirectoryServlet extends HttpServlet{
         String pageSize = req.getParameter("pageSize");
         String currentPage = req.getParameter("currentPage");
 
-        if(!"".equals(keyWords) && keyWords != null){
+        if (!"".equals(keyWords) && keyWords != null) {
             queryDirectoryObject.setKeyWords(keyWords);
         }
-        if(!"".equals(pageSize) && pageSize != null){
+        if (!"".equals(pageSize) && pageSize != null) {
             queryDirectoryObject.setPageSize(Integer.valueOf(pageSize));
         }
-        if(!"".equals(currentPage) && currentPage != null){
+        if (!"".equals(currentPage) && currentPage != null) {
             queryDirectoryObject.setCurrentPage(Integer.valueOf(currentPage));
         }
 
@@ -75,11 +68,11 @@ public class DirectoryServlet extends HttpServlet{
 
         ResultObject result = directoryService.queryByKeyWords(queryDirectoryObject);
 
-        if(result.getTotalCount() > 0){
-            req.setAttribute("result",result);
-        }else {
+        if (result.getTotalCount() > 0) {
+            req.setAttribute("result", result);
+        } else {
             try {
-                req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/error.jsp").forward(req, resp);
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -87,10 +80,10 @@ public class DirectoryServlet extends HttpServlet{
             }
         }
 
-        req.setAttribute("qo",queryDirectoryObject);//参数回显
+        req.setAttribute("qo", queryDirectoryObject);//参数回显
 
         try {
-            req.getRequestDispatcher("/WEB-INF/views/directory.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/directory.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -103,10 +96,10 @@ public class DirectoryServlet extends HttpServlet{
      * @param req
      * @param resp
      */
-    public void delete(HttpServletRequest req, HttpServletResponse resp){
+    public void delete(HttpServletRequest req, HttpServletResponse resp) {
 
         String id = req.getParameter("id");
-        if(id != null && id != "" ){
+        if (id != null && id != "") {
             Long d_id = Long.valueOf(id);
             directoryService.delete(d_id);
         }
@@ -122,17 +115,17 @@ public class DirectoryServlet extends HttpServlet{
      * @param req
      * @param resp
      */
-    public void saveAndUpdate(HttpServletRequest req, HttpServletResponse resp){
+    public void saveAndUpdate(HttpServletRequest req, HttpServletResponse resp) {
 
         String id = req.getParameter("id");
 
-        if(id != null && id != ""){//表示修改
+        if (id != null && id != "") {//表示修改
             Long u_id = Long.valueOf(id);
             Directory directory = directoryService.queryById(u_id);
-            req.setAttribute("directory",directory);
+            req.setAttribute("directory", directory);
         }
         try {
-            req.getRequestDispatcher("/WEB-INF/views/dirlist.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/dirlist.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -145,21 +138,21 @@ public class DirectoryServlet extends HttpServlet{
      * @param req
      * @param resp
      */
-    public void saveAndUpdateImpl(HttpServletRequest req, HttpServletResponse resp){
+    public void saveAndUpdateImpl(HttpServletRequest req, HttpServletResponse resp) {
         String id = req.getParameter("id");
 
         Directory directory = new Directory();
 
-        if (id != null && id != ""){
+        if (id != null && id != "") {
             directory.setId(Long.valueOf(id));
         }
 
         directory.setName(req.getParameter("name"));
         directory.setDescribes(req.getParameter("describes"));
 
-        if (id != null && id != ""){//表示为修改
+        if (id != null && id != "") {//表示为修改
             directoryService.update(directory);
-        }else {//表示新增
+        } else {//表示新增
             directoryService.save(directory);
         }
         try {
