@@ -3,56 +3,58 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhu.bms.mapper.DirectoryMapper">
-<!--    增加-->
-        <insert id="save" parameterType="Directory">
-            insert into directory (name,describes)
-            values (#{name},#{describes});
-        </insert>
-<!--    删除-->
-        <delete id="delete" parameterType="Long">
-            delete from directory where id=#{id}
-        </delete>
-<!--    修改-->
-        <update id="update" parameterType="Directory">
-            update directory
-            set name = #{name},describes = #{describes}
-            where
-                id = #{id}
-        </update>
-<!--    按照id查询-->
+    <!--    增加-->
+    <insert id="save" parameterType="Directory">
+        insert into directory (name, describes)
+        values (#{name}, #{describes});
+    </insert>
+    <!--    删除-->
+    <delete id="delete" parameterType="Long">
+        delete
+        from directory
+        where id = #{id}
+    </delete>
+    <!--    修改-->
+    <update id="update" parameterType="Directory">
+        update directory
+        set name      = #{name},
+            describes = #{describes}
+        where id = #{id}
+    </update>
+    <!--    按照id查询-->
     <select id="queryById" resultType="Directory">
         select *
         from directory
-        where  id = #{id}
+        where id = #{id}
     </select>
-<!--    查询所有-->
+    <!--    查询所有-->
     <select id="queryAll" resultType="Directory">
         select *
         from directory
     </select>
-<!--根据条件查询总条数-->
+    <!--根据条件查询总条数-->
     <select id="queryCount" resultType="Integer">
         select count(id)
         from directory
         <where>
             <if test="keyWords != null and keyWords != ''">
-                name like concat('%',#{keyWords},'%')
+                name like concat('%', #{keyWords}, '%')
             </if>
             <if test="keyWords != null and keyWords != ''">
-                or describes like concat('%',#{keyWords},'%')
+                or describes like concat('%', #{keyWords}, '%')
             </if>
         </where>
     </select>
-<!--    根据关键字查询-->
+    <!--    根据关键字查询-->
     <select id="queryByKeyWords" resultType="Directory">
         select *
         from directory
         <where>
             <if test="keyWords != null and keyWords != ''">
-                name like concat('%',#{keyWords},'%')
+                name like concat('%', #{keyWords}, '%')
             </if>
             <if test="keyWords != null and keyWords != ''">
-                or describes like concat('%',#{keyWords},'%')
+                or describes like concat('%', #{keyWords}, '%')
             </if>
         </where>
         LIMIT #{startIndex},#{pageSize}

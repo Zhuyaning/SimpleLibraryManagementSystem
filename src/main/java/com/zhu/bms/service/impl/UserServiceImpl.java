@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User query(Long id) {
-        return  userMapper.query(id);
+        return userMapper.query(id);
     }
 
     @Override

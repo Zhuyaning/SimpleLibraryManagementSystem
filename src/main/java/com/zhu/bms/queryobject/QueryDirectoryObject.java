@@ -9,11 +9,11 @@ package com.zhu.bms.queryobject;
 
 public class QueryDirectoryObject {
 
-    private  String keyWords;  //查询类别的关键词
+    private String keyWords;  //查询类别的关键词
 
-    private  Integer pageSize = 5;
-    private  Integer currentPage = 1;
-    private  Integer startIndex = 0;
+    private Integer pageSize = 5;
+    private Integer currentPage = 1;
+    private Integer startIndex = 0;
 
     public String getKeyWords() {
         return keyWords;
@@ -28,9 +28,9 @@ public class QueryDirectoryObject {
     }
 
     public void setPageSize(Integer pageSize) {
-        if(pageSize >= 1){
+        if (pageSize >= 1) {
             this.pageSize = pageSize;
-        }else {
+        } else {
             this.pageSize = 5;
         }
     }
@@ -40,20 +40,20 @@ public class QueryDirectoryObject {
     }
 
     public void setCurrentPage(Integer currentPage) {
-        if(currentPage <= 1){
+        if (currentPage <= 1) {
             this.currentPage = 1;
-        }else{
+        } else {
             this.currentPage = currentPage;
         }
     }
 
     public void setStartIndex() {
-        this.startIndex = (currentPage-1)*pageSize;
+        this.startIndex = (currentPage - 1) * pageSize;
     }
 
     public Integer getStartIndex() {
         //查询启始值为 ：当前页数先减一再乘每页显示的数。
-        return startIndex = (currentPage-1)*pageSize;
+        return startIndex = (currentPage - 1) * pageSize;
     }
 
     @Override

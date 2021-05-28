@@ -3,7 +3,6 @@ package com.zhu.bms.mapper.impl;
 import com.zhu.bms.domain.Directory;
 import com.zhu.bms.mapper.DirectoryMapper;
 import com.zhu.bms.queryobject.QueryDirectoryObject;
-import com.zhu.bms.result.ResultObject;
 import com.zhu.bms.utils.MybatisUtil;
 import org.apache.ibatis.session.SqlSession;
 

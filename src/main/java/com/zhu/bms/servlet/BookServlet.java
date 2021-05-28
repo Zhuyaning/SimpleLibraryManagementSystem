@@ -98,7 +98,7 @@ public class BookServlet extends HttpServlet {
      * @param req
      * @param resp
      */
-    public void query(HttpServletRequest req, HttpServletResponse resp){
+    public void query(HttpServletRequest req, HttpServletResponse resp) {
 
         QueryBookObject queryBookObject = new QueryBookObject();
         //查询条件封装
@@ -151,21 +151,21 @@ public class BookServlet extends HttpServlet {
      * @param req
      * @param resp
      */
-    public void saveAndUpdate(HttpServletRequest req, HttpServletResponse resp){
+    public void saveAndUpdate(HttpServletRequest req, HttpServletResponse resp) {
 
         String id = req.getParameter("id");//获取前端要修改的id，为空就是新增操作。
 
-        if(id != null){    //代表修改操作
+        if (id != null) {    //代表修改操作
             Long id1 = Long.valueOf(id);
             Book bookOne = bookService.queryById(id1);//id查询将要修改的book
-            req.setAttribute("bookOne",bookOne);//前端显示
+            req.setAttribute("bookOne", bookOne);//前端显示
         }
 
         List<Directory> directories = directoryService.queryAll();//所有类别查询
-        req.setAttribute("directories",directories);//前端书籍类别显示
+        req.setAttribute("directories", directories);//前端书籍类别显示
 
         try {
-            req.getRequestDispatcher("/WEB-INF/views/input.jsp").forward(req,resp);//跳转到修改页面
+            req.getRequestDispatcher("/WEB-INF/views/input.jsp").forward(req, resp);//跳转到修改页面
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,7 +176,7 @@ public class BookServlet extends HttpServlet {
      * @param req
      * @param resp
      */
-    public void saveAndUpdateImpl(HttpServletRequest req, HttpServletResponse resp){
+    public void saveAndUpdateImpl(HttpServletRequest req, HttpServletResponse resp) {
 
         String id = req.getParameter("id");//书的id
         String sn = req.getParameter("sn");//书的缩写
@@ -187,32 +187,32 @@ public class BookServlet extends HttpServlet {
 
         Book book = new Book();
         //参数封装到book对象，先经过非空判断。
-        if (!"".equals(id) && id != null){
+        if (!"".equals(id) && id != null) {
             book.setId(Long.valueOf(id));
         }
-        if (!"".equals(sn) && sn != null){
+        if (!"".equals(sn) && sn != null) {
             book.setSn(sn);
         }
-        if (!"".equals(name) && name != null){
+        if (!"".equals(name) && name != null) {
             book.setName(name);
         }
-        if (!"".equals(author) && author != null){
+        if (!"".equals(author) && author != null) {
             book.setAuthor(author);
         }
-        if (!"".equals(price) && price != null){
+        if (!"".equals(price) && price != null) {
             BigDecimal big_price = new BigDecimal(price);
             book.setPrice(big_price);
         }
-        if (!"".equals(dirId) && dirId != null){
+        if (!"".equals(dirId) && dirId != null) {
             Directory directory = new Directory();
             directory.setId(Long.valueOf(dirId));
             book.setDirectory(directory);
         }
 
         //具体操作
-        if (!"".equals(req.getParameter("id")) &&req.getParameter("id") != null){  //判断是否是修改
+        if (!"".equals(req.getParameter("id")) && req.getParameter("id") != null) {  //判断是否是修改
             bookService.update(book);//修改
-        }else {
+        } else {
             bookService.save(book);//新增
         }
 

@@ -4,6 +4,7 @@ package com.zhu.bms.servlet;
 import com.zhu.bms.domain.User;
 import com.zhu.bms.service.UserService;
 import com.zhu.bms.service.impl.UserServiceImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,30 +25,30 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
 
-       String action = req.getParameter("action");
+        String action = req.getParameter("action");
 
-       if ("login".equals(action)){
-           myLogin(req,resp);
-       }else if ("loginImpl".equals(action)){
-           myLoginImpl(req,resp);
-       }else if("logout".equals(action)){
-           myLogOut(req,resp);
-       }else if("query".equals(action)){
-           query(req,resp);
-       }else if("save".equals(action)){
-           save(req,resp);
-       }else if("saveImpl".equals(action)){
-           saveImpl(req,resp);
-       }else if("delete".equals(action)){
-           deleteUser(req,resp);
-       }
+        if ("login".equals(action)) {
+            myLogin(req, resp);
+        } else if ("loginImpl".equals(action)) {
+            myLoginImpl(req, resp);
+        } else if ("logout".equals(action)) {
+            myLogOut(req, resp);
+        } else if ("query".equals(action)) {
+            query(req, resp);
+        } else if ("save".equals(action)) {
+            save(req, resp);
+        } else if ("saveImpl".equals(action)) {
+            saveImpl(req, resp);
+        } else if ("delete".equals(action)) {
+            deleteUser(req, resp);
+        }
     }
 
     private void deleteUser(HttpServletRequest req, HttpServletResponse resp) {
         String uid = req.getParameter("uid");
-        if(uid != null && uid != ""){
+        if (uid != null && uid != "") {
             Long u_id = Long.valueOf(uid);
-            UserService userService= new UserServiceImpl();
+            UserService userService = new UserServiceImpl();
             userService.deleteUser(u_id);
             try {
                 resp.sendRedirect("user?action=query");
@@ -63,7 +64,7 @@ public class UserServlet extends HttpServlet {
 
         User user = new User();
 
-        if (uid != null && uid != ""){
+        if (uid != null && uid != "") {
             user.setUid(Long.valueOf(uid));
         }
 
@@ -71,10 +72,10 @@ public class UserServlet extends HttpServlet {
 
         user.setPassword(req.getParameter("password"));
 
-        if (uid != null && uid != ""){//表示为修改
+        if (uid != null && uid != "") {//表示为修改
             UserService userService = new UserServiceImpl();
             userService.updateUser(user);
-        }else {//表示新增
+        } else {//表示新增
             UserService userService = new UserServiceImpl();
             userService.register(user);
         }
@@ -90,15 +91,15 @@ public class UserServlet extends HttpServlet {
 
         String uid = req.getParameter("uid");
 
-        if(uid != null && uid != ""){//表示修改
+        if (uid != null && uid != "") {//表示修改
             Long u_id = Long.valueOf(uid);
 
-            UserService userService= new UserServiceImpl();
+            UserService userService = new UserServiceImpl();
             User user = userService.query(u_id);
-            req.setAttribute("user",user);
+            req.setAttribute("user", user);
         }
         try {
-            req.getRequestDispatcher("/WEB-INF/views/userAdd.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/userAdd.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -108,12 +109,12 @@ public class UserServlet extends HttpServlet {
 
     private void query(HttpServletRequest req, HttpServletResponse resp) {
 
-        UserService userService= new UserServiceImpl();
+        UserService userService = new UserServiceImpl();
         List<User> userList = userService.queryAllUser();
-        req.setAttribute("userList",userList);
+        req.setAttribute("userList", userList);
 
         try {
-            req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/user.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -125,12 +126,12 @@ public class UserServlet extends HttpServlet {
     private void myLogOut(HttpServletRequest req, HttpServletResponse resp) {
 
         req.getSession().removeAttribute("username");
-        myLogin(req,resp);
+        myLogin(req, resp);
     }
 
     private void myLogin(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req,resp);
+            req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -150,16 +151,16 @@ public class UserServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         User loginUser = userService.login(user);
 
-        if(loginUser.getPassword().equals(user.getPassword())){
-            req.getSession().setAttribute("username",username);
+        if (loginUser.getPassword().equals(user.getPassword())) {
+            req.getSession().setAttribute("username", username);
             try {
                 resp.sendRedirect("book?action=main");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else {
+        } else {
             try {
-                req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req,resp);
+                req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
             } catch (ServletException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -167,7 +168,6 @@ public class UserServlet extends HttpServlet {
             }
         }
     }
-
 
 
 }

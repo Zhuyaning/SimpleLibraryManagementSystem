@@ -1,6 +1,5 @@
 package com.zhu.bms.service.impl;
 
-import com.zhu.bms.domain.Book;
 import com.zhu.bms.domain.Directory;
 import com.zhu.bms.mapper.DirectoryMapper;
 import com.zhu.bms.mapper.impl.DirectoryMapperImpl;
@@ -38,7 +37,7 @@ public class DirectoryServiceImpl implements DirectoryService {
 
     @Override
     public Directory queryById(Long id) {
-      return directoryMapper.queryById(id);
+        return directoryMapper.queryById(id);
     }
 
     @Override
@@ -53,9 +52,9 @@ public class DirectoryServiceImpl implements DirectoryService {
 
         Integer totalCount = directoryMapper.queryCount(queryDirectoryObject);//查询总条数数
 
-        if (totalCount == 0){//如果查询出总条数为0，那么直接返回空的结果。
+        if (totalCount == 0) {//如果查询出总条数为0，那么直接返回空的结果。
             return resultObject;
-        }else{
+        } else {
             List<Directory> bookList = directoryMapper.queryByKeyWords(queryDirectoryObject);//查询数据
 
             resultObject.setResultDate(bookList);//书籍数据

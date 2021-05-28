@@ -1,10 +1,5 @@
 package com.zhu.bms.queryobject;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
 /***
  *   Created by IntelliJ IDEA.
  *   User: ZhuYaning
@@ -14,13 +9,13 @@ import lombok.ToString;
 
 public class QueryBookObject {
 
-    private  String bookName;
-    private  String authorName;
-    private  String dirId;
+    private String bookName;
+    private String authorName;
+    private String dirId;
 
-    private  Integer pageSize = 5;
-    private  Integer currentPage = 1;
-    private  Integer startIndex = 0;
+    private Integer pageSize = 5;
+    private Integer currentPage = 1;
+    private Integer startIndex = 0;
 
     public String getBookName() {
         return bookName;
@@ -51,9 +46,9 @@ public class QueryBookObject {
     }
 
     public void setPageSize(Integer pageSize) {
-        if(pageSize >= 1){
+        if (pageSize >= 1) {
             this.pageSize = pageSize;
-        }else {
+        } else {
             this.pageSize = 5;
         }
     }
@@ -63,20 +58,20 @@ public class QueryBookObject {
     }
 
     public void setCurrentPage(Integer currentPage) {
-        if(currentPage <= 1){
+        if (currentPage <= 1) {
             this.currentPage = 1;
-        }else{
+        } else {
             this.currentPage = currentPage;
         }
     }
 
     public void setStartIndex() {
-        this.startIndex = (currentPage-1)*pageSize;
+        this.startIndex = (currentPage - 1) * pageSize;
     }
 
     public Integer getStartIndex() {
         //查询启始值为 ：当前页数先减一再乘每页显示的数。
-        return startIndex = (currentPage-1)*pageSize;
+        return startIndex = (currentPage - 1) * pageSize;
     }
 
     @Override

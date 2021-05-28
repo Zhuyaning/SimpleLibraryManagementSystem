@@ -3,16 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhu.bms.mapper.BookMapper">
-<!--    增加书-->
+    <!--    增加书-->
     <insert id="save" parameterType="Book">
-        insert into book (sn,name,author,price,dirId)
-        values (#{sn},#{name},#{author},#{price},#{directory.id});
+        insert into book (sn, name, author, price, dirId)
+        values (#{sn}, #{name}, #{author}, #{price}, #{directory.id});
     </insert>
-<!--    删除书-->
+    <!--    删除书-->
     <delete id="delete" parameterType="Long">
-        delete from book where id=#{id}
+        delete
+        from book
+        where id = #{id}
     </delete>
-<!--   修改书-->
+    <!--   修改书-->
     <update id="update">
         update book
         <set>
@@ -32,25 +34,24 @@
                 dirId= #{directory.id}
             </if>
         </set>
-        where id=#{id}
+        where id = #{id}
     </update>
-<!--    根据id查询-->
+    <!--    根据id查询-->
     <select id="queryById" resultMap="baseMap">
-        select
-            b.id,
-            b.sn,
-            b.name,
-            b.author,
-            b.price,
-            d.id as dirId,
-            d.name as dirName,
-            d.describes
+        select b.id,
+               b.sn,
+               b.name,
+               b.author,
+               b.price,
+               d.id   as dirId,
+               d.name as dirName,
+               d.describes
         from book as b
-            inner join directory as d
-            on b.dirId = d.id
-        where b.id=#{id}
+                     inner join directory as d
+                on b.dirId = d.id
+        where b.id = #{id}
     </select>
-<!--    结果集映射-->
+    <!--    结果集映射-->
     <resultMap id="baseMap" type="Book">
         <id column="id" property="id"/>
         <result column="sn" property="sn"/>
@@ -61,41 +62,39 @@
         <result column="dirName" property="directory.name"/>
         <result column="describes" property="directory.describes"/>
     </resultMap>
-<!--    查询所有的书籍-->
+    <!--    查询所有的书籍-->
     <select id="queryAllBook" resultMap="baseMap">
-        select
-            b.id,
-            b.sn,
-            b.name,
-            b.author,
-            b.price,
-            d.id as dirId,
-            d.name as dirName,
-            d.describes
+        select b.id,
+               b.sn,
+               b.name,
+               b.author,
+               b.price,
+               d.id   as dirId,
+               d.name as dirName,
+               d.describes
         from book as b
-                 inner join directory as d
-                            on b.dirId = d.id
+                     inner join directory as d
+                on b.dirId = d.id
     </select>
-<!--    根据书名或者作者名查询书籍-->
+    <!--    根据书名或者作者名查询书籍-->
     <select id="queryByKeyWords" resultMap="baseMap">
-        select
-            b.id,
-            b.sn,
-            b.name,
-            b.author,
-            b.price,
-            d.id as dirId,
-            d.name as dirName,
-            d.describes
+        select b.id,
+               b.sn,
+               b.name,
+               b.author,
+               b.price,
+               d.id   as dirId,
+               d.name as dirName,
+               d.describes
         from book as b
-                 inner join directory as d
-                            on b.dirId = d.id
+                     inner join directory as d
+                on b.dirId = d.id
         <where>
             <if test="bookName != null and bookName != ''">
-                b.name like concat('%',#{bookName},'%')
+                b.name like concat('%', #{bookName}, '%')
             </if>
             <if test="authorName != null and authorName != ''">
-                and b.author like concat('%',#{authorName},'%')
+                and b.author like concat('%', #{authorName}, '%')
             </if>
             <if test="dirId != null and dirId != ''">
                 and d.id = #{dirId}
@@ -105,17 +104,16 @@
     </select>
 
     <select id="queryCount" resultType="Integer">
-        select
-               count(b.id)
+        select count(b.id)
         from book as b
-            inner join directory as d
-            on b.dirId = d.id
+                     inner join directory as d
+                on b.dirId = d.id
         <where>
             <if test="bookName != null and bookName != ''">
-                b.name like concat('%',#{bookName},'%')
+                b.name like concat('%', #{bookName}, '%')
             </if>
             <if test="authorName != null and authorName != ''">
-                and b.author like concat('%',#{authorName},'%')
+                and b.author like concat('%', #{authorName}, '%')
             </if>
             <if test="dirId != null and dirId != ''">
                 and d.id = #{dirId}

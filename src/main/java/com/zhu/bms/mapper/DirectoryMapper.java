@@ -44,18 +44,18 @@ public interface DirectoryMapper {
      *根据关键词查询书籍类别
      * @return 图书类别对象List
      */
-     List<Directory> queryByKeyWords(QueryDirectoryObject queryDirectoryObject);
+    List<Directory> queryByKeyWords(QueryDirectoryObject queryDirectoryObject);
 
     /***
      * 查询总条数
      * @param queryDirectoryObject
      * @return 对应书籍类别总条数
      */
-     Integer queryCount(QueryDirectoryObject queryDirectoryObject);
+    Integer queryCount(QueryDirectoryObject queryDirectoryObject);
 
     /***
      * 查询所有类别
      * @return
      */
-     List<Directory> queryAll();
+    List<Directory> queryAll();
 }

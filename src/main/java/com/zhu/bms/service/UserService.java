@@ -24,7 +24,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    User login (User user);
+    User login(User user);
 
     /***
      * 删除用户

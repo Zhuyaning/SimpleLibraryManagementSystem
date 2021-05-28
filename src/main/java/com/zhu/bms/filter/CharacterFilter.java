@@ -22,14 +22,14 @@ public class CharacterFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if(encoding != null){
+        if (encoding != null) {
             //设置request字符编码
             request.setCharacterEncoding(encoding);
             //设置response字符编码
-            response.setContentType("text/html;charset="+encoding);
+            response.setContentType("text/html;charset=" + encoding);
         }
         //传递给下一个过滤器
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 
     @Override

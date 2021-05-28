@@ -34,7 +34,7 @@ public interface BookMapper {
     /***
      * 按照书的id查询书籍
      * @param id 书的id
-     * @return  书的对象
+     * @return 书的对象
      */
     Book queryById(Long id);
 

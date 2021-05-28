@@ -10,10 +10,11 @@ import java.io.InputStream;
 
 public class MybatisUtil {
 
-    private MybatisUtil(){
+    private MybatisUtil() {
     }
 
     private static SqlSession sqlSession = null;
+
     static {
         try {
             InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
@@ -24,6 +25,7 @@ public class MybatisUtil {
             e.printStackTrace();
         }
     }
+
     public static SqlSession getSqlSession() {
         return sqlSession;
     }
