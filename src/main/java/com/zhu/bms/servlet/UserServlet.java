@@ -124,9 +124,8 @@ public class UserServlet extends HttpServlet {
     }
 
     private void myLogOut(HttpServletRequest req, HttpServletResponse resp) {
-
-        req.getSession().removeAttribute("username");
-        myLogin(req, resp);
+            req.getSession().removeAttribute("username");
+            myLogin(req, resp);
     }
 
     private void myLogin(HttpServletRequest req, HttpServletResponse resp) {
